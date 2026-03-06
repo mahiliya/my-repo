@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requirement Application Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .success-container {
+            background: #fff;
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 3rem;
+            color: #4BB543;
+        }
+        h1 {
+            margin-top: 1rem;
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #fff;
+            background: #4BB543;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        a:hover {
+            background: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✔️</div>
+        <h1>Your Requirement Application Is Successful!</h1>
+        <p>Your department requirements have been submitted successfully.</p>
+        <a href="{% url 'department_submission' %}">Submit Another</a>
+    </div>
+</body>
+</html>

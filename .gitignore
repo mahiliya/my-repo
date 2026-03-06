@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# Virtual environment
+venv/
+env/
+ENV/
+*.venv
+
+# Django specific
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+
+# Environment & secrets
+.env
+*.env
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

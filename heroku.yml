@@ -1,0 +1,10 @@
+build:
+  languages:
+    - python
+  packages:
+    - python3-dev
+    - build-essential
+    - libpq-dev
+
+run:
+  web: gunicorn stellar_core.wsgi:application --bind 0.0.0.0:$PORT

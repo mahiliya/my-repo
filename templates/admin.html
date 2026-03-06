@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SSGI Interns</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reuse existing theme variables and base styles */
+        :root {
+            --space-blue: #0B3D91;
+            --stellar-gold: #FFD700;
+            --cosmic-red: #FC3D21;
+            --nebula-purple: #9B59B6;
+            --star-white: #FFFFFF;
+            --galaxy-dark: #0A1128;
+            --comet-gray: #F5F7FA;
+            --orbit-shadow: 0 4px 20px rgba(11, 61, 145, 0.15);
+            --admin-sidebar-width: 250px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--comet-gray);
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--admin-sidebar-width);
+            background: linear-gradient(135deg, var(--galaxy-dark) 0%, var(--space-blue) 100%);
+            color: var(--star-white);
+            padding: 20px 0;
+            box-shadow: var(--orbit-shadow);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        .sidebar-logo-icon {
+            font-size: 28px;
+            color: var(--stellar-gold);
+            animation: pulse 3s infinite;
+        }
+        .sidebar-logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+        .sidebar-logo-text span {
+            color: var(--stellar-gold);
+        }
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--star-white);
+            text-decoration: none;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--stellar-gold);
+        }
+        .nav-links a i {
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--space-blue);
+            color: var(--star-white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--orbit-shadow);
+            z-index: 999;
+        }
+        .top-bar h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--stellar-gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--galaxy-dark);
+            font-weight: bold;
+        }
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--star-white);
+            color: var(--star-white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .section-header {
+            margin-bottom: 25px;
+        }
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--space-blue);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .section-header p {
+            color: #666;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--orbit-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: var(--space-blue);
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-primary {
+            background: var(--space-blue);
+            color: var(--star-white);
+        }
+        .btn-secondary {
+            background: var(--stellar-gold);
+            color: var(--galaxy-dark);
+        }
+        .btn-success {
+            background: #4CAF50; /* Green */
+            color: white;
+        }
+        .btn-danger {
+            background: var(--cosmic-red);
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Match Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--orbit-shadow);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        .detail-section h3 {
+             color: var(--space-blue);
+             margin-bottom: 10px;
+             font-family: 'Orbitron', sans-serif;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .detail-item {
+            background: var(--comet-gray);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9em;
+        }
+        .detail-value {
+            margin-top: 5px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+         /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links li {
+                margin: 5px;
+            }
+            .nav-links a {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            .top-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="sidebar-logo-text">SSGI<span>ADMIN</span></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#" class="nav-link" data-target="requirements"><i class="fas fa-list"></i> Department Requirements</a></li>
+            <li><a href="#" class="nav-link" data-target="applications"><i class="fas fa-file-alt"></i> Intern Applications</a></li>
+            <li><a href="#" class="nav-link" data-target="matches"><i class="fas fa-link"></i> Matches</a></li>
+            <li><a href="#" class="nav-link" data-target="approved"><i class="fas fa-user-check"></i> Approved Interns</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h1>ADMIN DASHBOARD</h1>
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <span>Admin User</span>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content Sections -->
+        <div class="dashboard-content">
+
+            <!-- Dashboard Overview Section -->
+            <div id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2>SYSTEM OVERVIEW</h2>
+                    <p>Welcome to the SSGI Internship Admin Dashboard</p>
+                </div>
+                <div class="stats-grid">
+                    <!-- Placeholder for stats cards -->
+                    <p>Dashboard statistics and quick actions would appear here.</p>
+                    <button id="run-matching-btn" class="btn btn-primary"><i class="fas fa-sync"></i> Run Matching Algorithm</button>
+                </div>
+            </div>
+
+            <!-- Department Requirements Section -->
+            <div id="requirements" class="content-section">
+                <div class="section-header">
+                    <h2>DEPARTMENT REQUIREMENTS</h2>
+                    <p>View all submitted internship requirements</p>
+                </div>
+                <div class="table-container">
+                    <table id="requirements-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Department</th>
+                                <th>Required Skills</th>
+                                <th>Interns Needed</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Intern Applications Section -->
+            <div id="applications" class="content-section">
+                <div class="section-header">
+                    <h2>INTERN APPLICATIONS</h2>
+                    <p>View all submitted intern applications</p>
+                </div>
+                <div class="table-container">
+                    <table id="applications-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>University</th>
+                                <th>Department Applied</th>
+                                <th>Skills</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <!-- Data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Matches Section -->
+            <div id="matches" class="content-section">
+                <div class="section-header">
+                    <h2>PENDING MATCHES</h2>
+                    <p>Review and approve/reject intern-department matches</p>
+                </div>
+                <div class="table-container">
+                    <table id="matches-table">
+                        <thead>
+                            <tr>
+                                <th>Match ID</th>
+                                <th>Department</th>
+                                <th>Intern Name</th>
+                                <th>Intern Email</th>
+                                <th>Match Score</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+             <!-- Approved Interns Section -->
+            <div id="approved" class="content-section">
+                <div class="section-header">
+                    <h2>APPROVED INTERNS</h2>
+                    <p>List of interns approved for each department</p>
+                </div>
+                 <div class="table-container">
+                     <!-- Simple list for now, could be grouped by department -->
+                     <table id="approved-table">
+                         <thead>
+                             <tr>
+                                 <th>ID</th>
+                                 <th>Name</th>
+                                 <th>Email</th>
+                                 <th>Department</th>
+                                 <th>University</th>
+                                 <th>Assigned To</th> <!-- Could be department name -->
+                             </tr>
+                         </thead>
+                         <tbody>
+                              <!-- Data will be populated by JS -->
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Match Details Modal -->
+    <div id="match-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Match Details</h2>
+            <div id="match-details-content">
+                <!-- Content will be populated by JS -->
+            </div>
+            <div class="action-buttons" style="margin-top: 20px; justify-content: flex-end;">
+                <button id="approve-match-btn" class="btn btn-success"><i class="fas fa-check"></i> Approve</button>
+                <button id="reject-match-btn" class="btn btn-danger"><i class="fas fa-times"></i> Reject</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const API_BASE_URL = 'http://localhost:3000/api'; // Change this to your backend URL
+
+        // --- DOM Elements ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        const matchModal = document.getElementById('match-modal');
+        const closeModalBtn = document.querySelector('.close');
+        const matchDetailsContent = document.getElementById('match-details-content');
+        const approveMatchBtn = document.getElementById('approve-match-btn');
+        const rejectMatchBtn = document.getElementById('reject-match-btn');
+        const runMatchingBtn = document.getElementById('run-matching-btn');
+
+        let currentMatchId = null; // To track which match is being viewed/acted upon
+
+        // --- Navigation Handling ---
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-target');
+
+                // Update active nav link
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show corresponding content section
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                        // Load data for the section if needed
+                        loadDataForSection(targetId);
+                    }
+                });
+            });
+        });
+
+        // --- Modal Handling ---
+        closeModalBtn.onclick = function() {
+            matchModal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == matchModal) {
+                matchModal.style.display = "none";
+            }
+        }
+
+        // --- Data Loading and Display ---
+        function loadDataForSection(sectionId) {
+            switch (sectionId) {
+                case 'requirements':
+                    loadDepartmentRequirements();
+                    break;
+                case 'applications':
+                    loadInternApplications();
+                    break;
+                case 'matches':
+                    loadPendingMatches();
+                    break;
+                case 'approved':
+                    loadApprovedInterns();
+                    break;
+                default:
+                    // Dashboard or other sections
+                    break;
+            }
+        }
+
+        async function loadDepartmentRequirements() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/requirements`);
+                const requirements = await response.json();
+
+                const tbody = document.querySelector('#requirements-table tbody');
+                tbody.innerHTML = ''; // Clear existing
+
+                requirements.forEach(req => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${req.id || 'N/A'}</td>
+                        <td>${req.department_name || 'N/A'}</td>
+                        <td>${req.required_skills || 'N/A'}</td>
+                        <td>${req.num_interns_needed || 'N/A'}</td>
+                        <td>${req.deadline || 'N/A'}</td>
+                        <td>${req.status || 'Active'}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading requirements:', error);
+                alert('Failed to load department requirements.');
+            }
+        }
+
+        async function loadInternApplications() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/applications`);
+                const applications = await response.json();
+
+                const tbody = document.querySelector('#applications-table tbody');
+                tbody.innerHTML = ''; // Clear existing
+
+                applications.forEach(app => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${app.id || 'N/A'}</td>
+                        <td>${(app.firstName || '') + ' ' + (app.lastName || '')}</td>
+                        <td>${app.email || 'N/A'}</td>
+                        <td>${app.university || app.collegeName || 'N/A'}</td>
+                        <td>${app.department || 'N/A'}</td>
+                        <td>${app.skills || 'N/A'}</td>
+                        <td>${app.status || 'Submitted'}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading applications:', error);
+                alert('Failed to load intern applications.');
+            }
+        }
+
+        async function loadPendingMatches() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/matches/pending`);
+                const matches = await response.json();
+
+                const tbody = document.querySelector('#matches-table tbody');
+                tbody.innerHTML = ''; // Clear existing
+
+                matches.forEach(match => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${match.id || 'N/A'}</td>
+                        <td>${match.department_name || 'N/A'}</td>
+                        <td>${(match.intern_firstName || '') + ' ' + (match.intern_lastName || '')}</td>
+                        <td>${match.intern_email || 'N/A'}</td>
+                        <td>${match.match_score ? match.match_score.toFixed(2) : 'N/A'}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-primary view-match-btn" data-match-id="${match.id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Add event listeners to the new "View" buttons
+                document.querySelectorAll('.view-match-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const matchId = this.getAttribute('data-match-id');
+                        viewMatchDetails(matchId);
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error loading matches:', error);
+                alert('Failed to load pending matches.');
+            }
+        }
+
+        async function loadApprovedInterns() {
+             try {
+                 const response = await fetch(`${API_BASE_URL}/interns/approved`);
+                 const interns = await response.json();
+
+                 const tbody = document.querySelector('#approved-table tbody');
+                 tbody.innerHTML = ''; // Clear existing
+
+                 interns.forEach(intern => {
+                     const row = document.createElement('tr');
+                     row.innerHTML = `
+                         <td>${intern.id || 'N/A'}</td>
+                         <td>${(intern.firstName || '') + ' ' + (intern.lastName || '')}</td>
+                         <td>${intern.email || 'N/A'}</td>
+                         <td>${intern.department || 'N/A'}</td>
+                         <td>${intern.university || intern.collegeName || 'N/A'}</td>
+                         <td>${intern.assigned_department || 'N/A'}</td> <!-- Assuming backend provides this -->
+                     `;
+                     tbody.appendChild(row);
+                 });
+             } catch (error) {
+                 console.error('Error loading approved interns:', error);
+                 alert('Failed to load approved interns.');
+             }
+         }
+
+
+        // --- Match Interaction ---
+        async function viewMatchDetails(matchId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/matches/${matchId}`);
+                const matchDetails = await response.json();
+
+                // Populate modal content
+                matchDetailsContent.innerHTML = `
+                    <div class="detail-section">
+                        <h3>Match Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Match ID</div>
+                                <div class="detail-value">${matchDetails.id || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Match Score</div>
+                                <div class="detail-value">${matchDetails.match_score ? matchDetails.match_score.toFixed(2) : 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">${matchDetails.status || 'Pending Approval'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Department Requirement</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Department</div>
+                                <div class="detail-value">${matchDetails.department_name || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Required Skills</div>
+                                <div class="detail-value">${matchDetails.required_skills || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Interns Needed</div>
+                                <div class="detail-value">${matchDetails.num_interns_needed || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Intern Application</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Name</div>
+                                <div class="detail-value">${(matchDetails.intern_firstName || '') + ' ' + (matchDetails.intern_lastName || '')}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">${matchDetails.intern_email || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">University</div>
+                                <div class="detail-value">${matchDetails.intern_university || matchDetails.intern_collegeName || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Department Applied</div>
+                                <div class="detail-value">${matchDetails.intern_department || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Skills</div>
+                                <div class="detail-value">${matchDetails.intern_skills || 'N/A'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Interests</div>
+                                <div class="detail-value">${matchDetails.intern_interests || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                currentMatchId = matchId;
+                matchModal.style.display = "block";
+
+            } catch (error) {
+                console.error('Error loading match details:', error);
+                alert('Failed to load match details.');
+            }
+        }
+
+        async function approveOrRejectMatch(action) { // action: 'approve' or 'reject'
+            if (!currentMatchId) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/matches/${currentMatchId}/${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert(`Match ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+                    matchModal.style.display = "none";
+                    // Reload the matches section
+                    loadPendingMatches();
+                    // Reload approved interns if it was an approval
+                    if(action === 'approve') {
+                         loadApprovedInterns();
+                    }
+                } else {
+                    const errorData = await response.json();
+                    alert(`Failed to ${action} match: ${errorData.message || response.statusText}`);
+                }
+            } catch (error) {
+                console.error(`Error ${action}ing match:`, error);
+                alert(`An error occurred while trying to ${action} the match.`);
+            }
+        }
+
+        // --- Event Listeners for Actions ---
+        approveMatchBtn.addEventListener('click', () => approveOrRejectMatch('approve'));
+        rejectMatchBtn.addEventListener('click', () => approveOrRejectMatch('reject'));
+
+        runMatchingBtn.addEventListener('click', async () => {
+             try {
+                 const response = await fetch(`${API_BASE_URL}/matches/run`, {
+                     method: 'POST'
+                 });
+
+                 if (response.ok) {
+                     const data = await response.json();
+                     alert(data.message || 'Matching algorithm run successfully.');
+                     // Reload the matches section to show new potential matches
+                     loadPendingMatches();
+                 } else {
+                     const errorData = await response.json();
+                     alert(`Failed to run matching: ${errorData.message || response.statusText}`);
+                 }
+             } catch (error) {
+                 console.error('Error running matching:', error);
+                 alert('An error occurred while trying to run the matching algorithm.');
+             }
+         });
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load initial data for the default active section (Dashboard)
+            // loadDataForSection('dashboard'); // Not strictly needed for dashboard overview
+            // Load data for the first non-dashboard section that might be viewed soon
+            loadDepartmentRequirements();
+            loadInternApplications();
+        });
+
+    </script>
+</body>
+</html>

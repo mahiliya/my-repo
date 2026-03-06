@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Submitted</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #F5F7FA;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 80px auto 0 auto;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(11, 61, 145, 0.10);
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #FFD700;
+            margin-bottom: 20px;
+            animation: pop 0.7s;
+        }
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #0B3D91;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background: #0B3D91;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #0A2F70;
+        }
+        @keyframes pop {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Application submitted successfully!</h2>
+        <p>Our team will review your application and contact you soon.</p>
+        <a href="{% url 'internship_application' %}?status=application" class="btn"><i class="fas fa-arrow-left"></i> Back to Application</a>
+    </div>
+</body>
+</html>

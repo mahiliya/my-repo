@@ -1,0 +1,809 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Requirements | Space Science and Geospatial Institute</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* === Global Styles === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #083f76;
+            --secondary-color: #e68a00;
+            --accent-color: #1a5fb4;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --text-color: #444;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa url('{% static "images/bg-space.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            line-height: 1.8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Semi-transparent overlay for readability */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 60px;
+        }
+
+        /* === Header Styles === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px 0;
+            background:white;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            background:white;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .header-buttons {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .btn-header {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: #ffffff;
+            background:  #1b5674;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-header:hover {
+            background: #0f4a66;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* === Main Content === */
+        .form-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(230, 138, 0, 0.2);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 6px solid var(--secondary-color);
+        }
+
+        .form-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-header p {
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        /* === Form Styles === */
+        h1 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--secondary-color);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(8, 63, 118, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* === Field of Study Section === */
+        .field-of-study {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .field-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(230, 138, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .field-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .field-input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .field-input input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            transform: scale(1.1);
+        }
+
+        .field-input input[type="number"] {
+            width: 80px;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .field-total-display {
+            background: rgba(230, 138, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .field-total-display p {
+            margin: 5px 0;
+            font-weight: 500;
+        }
+
+        .error-text {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* === Submit Button === */
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(230, 138, 0, 0.2);
+        }
+
+        .submit-btn {
+            padding: 16px 45px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(8, 63, 118, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(8, 63, 118, 0.4);
+            background: linear-gradient(135deg, #073464, #175398);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn i {
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* === Success Message === */
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* === Responsive Design === */
+        @media (max-width: 768px) {
+            .container {
+                padding: 90px 15px 60px;
+            }
+            .logo {
+                width: 150px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .description {
+                font-size: 1.1rem;
+            }
+            .form-content {
+                padding: 30px 20px;
+            }
+            .form-header {
+                padding: 25px 20px;
+            }
+            .form-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .description {
+                font-size: 1rem;
+            }
+            .field-of-study {
+                grid-template-columns: 1fr;
+            }
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <img src="{% static 'images/logo.jpg' %}" alt="Ethiopian Space Science and Geospatial Institute" class="logo" />
+         {% if request.user.is_authenticated %}
+        <div class="header-buttons" style="position:absolute; top:50%; right:20px; transform:translateY(-50%); display:flex; gap:10px;">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="/" />
+                <button type="submit" class="btn-header">Logout</button>
+            </form>
+        </div>
+        {% endif %}
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1>Internship Requirements Submission</h1>
+            <p class="description">
+                Submit your department's internship requirement for the upcoming cycle. </p> 
+                 <p class="description"> Please provide detailed information to help us match the right candidates to your needs.</p>
+        
+
+            <div class="form-container">
+                <div class="form-header">
+                    <h2><i class="fas fa-clipboard-list"></i> Internship Requirement Form</h2>
+                    <p>Please fill out all required fields to submit your requirement</p>
+                </div>
+
+                <div class="form-content">
+                    <div id="successMessage" class="success-message">
+                        <i class="fas fa-check-circle"></i> Your internship requirements have been submitted successfully!
+                        We'll review your submission and contact you soon.
+                    </div>
+
+                    <form id="internshipForm" method="POST" enctype="multipart/form-data" action="{% url 'department_submission' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="submissionId" name="submissionId">
+                        <input type="hidden" id="fields_and_counts" name="fields_and_counts" value="">
+
+                        <div class="form-group">
+                            <label for="department" class="required">Your Office</label>
+                            <select id="department" name="department" required>
+                                <option value="">-- Select Department --</option>                    
+<option value="Aerial Survey Lead Executive Office">Aerial Survey Lead Executive Office</option>
+<option value="Aerospace Engineering and Satellite Communication Office">Aerospace Engineering and Satellite Communication Office</option>
+<option value="Astronomy and Astrophysics Lead Executive Office">Astronomy and Astrophysics Lead Executive Office</option>
+<option value="Data and System Administration Lead Executive Office">Data and System Administration Lead Executive Office</option>
+<option value="Digital Image Processing Lead Executive Officer">Digital Image Processing Lead Executive Office</option>
+<option value="Geodesy and Geodynamics Lead Executive Office">Geodesy and Geodynamics Lead Executive Office</option>
+<option value="Geodetic Infrastructure and Service Lead Executive Office">Geodetic Infrastructure and Service Lead Executive Office</option>
+<option value="Mapping Lead Executive Office">Mapping Lead Executive Office</option>
+<option value="Photogrammetry and Lidar data Processing Lead Executive Office">Photogrammetry and Lidar data Processing Lead Executive Office</option>
+<option value="Platform and Application Development Lead Executive Office">Platform and Application Development Lead Executive Office</option>
+<option value="Postgraduate, Registrar and Research Administration Lead Executive Office">Postgraduate, Registrar and Research Administration Lead Executive Office</option>
+<option value="Remote Sensing Lead Executive Office">Remote Sensing Lead Executive Office</option>
+<option value="Regional Partnership Lead Executive Office">Regional Partnership Lead Executive Office</option>
+<option value="Satellite Operation Lead Executive Office">Satellite Operation Lead Executive Office</option>
+<option value="Spatial Decision Support Lead Executive Office">Spatial Decision Support Lead Executive Office</option>
+<option value="Space and Geospatial Information Standardization Framework Lead Executive Office">Space and Geospatial Information Standardization Framework Lead Executive Office</option>
+<option value="Space and Planetary Science Lead Executive Office">Space and Planetary Science Lead Executive Office</option>
+<option value="Training and Technology Transfer Lead Executive Office">Training and Technology Transfer Lead Executive Office</option>
+                      </select>
+                        </div>
+                       
+
+                        <div class="form-group">
+                            <label for="internCount" class="required">Total Number of Interns Needed</label>
+                            <input type="number" id="internCount" name="internCount" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Preferred Fields of Study and Number of Interns Needed</label>
+                            <div class="field-of-study">
+                                <!-- Fields -->
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field1" name="fields" value="Computer Science">
+                                        <label for="field1">Computer Science</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field2" name="fields" value="Information Technology">
+                                        <label for="field2">Information Technology</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field3" name="fields" value="Mechanical Engineering">
+                                        <label for="field3">Mechanical Engineering</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field4" name="fields" value="Remote Sensing">
+                                        <label for="field4">Remote Sensing</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field5" name="fields" value="Civil Engineering">
+                                        <label for="field5">Civil Engineering</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field6" name="fields" value="Surveying">
+                                        <label for="field6">Surveying</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field7" name="fields" value="Electro Mechanical">
+                                        <label for="field7">Electro Mechanical</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field8" name="fields" value="Information Science">
+                                        <label for="field8">Information Science</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field9" name="fields" value="Computer Science and Engineering">
+                                        <label for="field9">Computer Science and Engineering</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field10" name="fields" value="Software Engineering">
+                                        <label for="field10">Software Engineering</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field11" name="fields" value="Physics">
+                                        <label for="field11">Physics</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field12" name="fields" value="Mathematics">
+                                        <label for="field12">Mathematics</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field13" name="fields" value="Data Science">
+                                        <label for="field13">Data Science</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field14" name="fields" value="Electrical Engineering">
+                                        <label for="field14">Electrical Engineering</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field15" name="fields" value="Telecommunications">
+                                        <label for="field15">Telecommunications</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-input">
+                                        <input type="checkbox" id="field16" name="fields" value="Other">
+                                        <label for="field16">Other (please specify)</label>
+                                        <input type="number" class="field-count" min="0" value="0" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" id="otherField" name="otherField" class="form-control" placeholder="Specify other field" style="margin-top: 15px; display: none;">
+
+                            <div class="field-total-display">
+                                <p>Total per fields: <span id="fieldsTotal">0</span> / <span id="totalNeeded">0</span></p>
+                                <p id="totalError" class="error-text">The sum of interns per field must equal the total number of interns needed.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="skills">Required Skills (optional)</label>
+                            <textarea id="skills" name="skills" class="form-control" placeholder="List any specific skills or qualifications in relation with your departmrnt (E.g Software engineering:python)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="potential_project" class="required">Potential Project</label>
+                            <textarea id="potential_project" name="potential_project" class="form-control" placeholder="Please describe the potential projects that interns could work on, including project goals, required skills, expected outcomes, and any other relevant details..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="Mentor" class="required">Mentor</label>
+                            <input type="text" id="mentor" name="mentor" optional>
+                        </div>
+                        <div class="submit-container">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i> Submit Requirements
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   <script>
+    // === DOM Elements ===
+    const header = document.getElementById('header');
+    const form = document.getElementById('internshipForm');
+    const successMessage = document.getElementById('successMessage');
+    const submitBtn = document.querySelector('.submit-btn');
+
+    // === Storage Key ===
+    const storageKey = 'internshipSubmissions';
+
+    // === Header Scroll Effect ===
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+
+    // === Show/Hide "Other" Field ===
+    document.getElementById('field16').addEventListener('change', function() {
+        document.getElementById('otherField').style.display = this.checked ? 'block' : 'none';
+    });
+
+    // === Enable/Disable Number Inputs Based on Checkbox ===
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const numberInput = this.closest('.field-input')?.querySelector('.field-count');
+            if (numberInput) {
+                numberInput.disabled = !this.checked;
+                if (!this.checked) numberInput.value = 0;
+                calculateFieldsTotal();
+            }
+        });
+    });
+
+    // === Update Totals When Numbers Change ===
+    document.querySelectorAll('.field-count').forEach(input => {
+        input.addEventListener('input', calculateFieldsTotal);
+    });
+
+    // === Update Total Needed Display ===
+    document.getElementById('internCount').addEventListener('input', function() {
+        document.getElementById('totalNeeded').textContent = this.value || 0;
+        calculateFieldsTotal();
+    });
+
+    // === Calculate Total Interns per Field ===
+    function calculateFieldsTotal() {
+        let total = 0;
+        document.querySelectorAll('.field-input').forEach(field => {
+            const checkbox = field.querySelector('input[type="checkbox"]');
+            const numberInput = field.querySelector('.field-count');
+            if (checkbox.checked) {
+                total += parseInt(numberInput.value) || 0;
+            }
+        });
+        document.getElementById('fieldsTotal').textContent = total;
+        const totalNeeded = parseInt(document.getElementById('internCount').value) || 0;
+        document.getElementById('totalError').style.display = total !== totalNeeded ? 'block' : 'none';
+        return total;
+    }
+
+
+    function loadSubmissionIntoForm(sub) {
+        document.getElementById('submissionId').value = sub.id;
+        document.getElementById('department').value = sub.department;
+        document.getElementById('internCount').value = sub.internCount;
+        document.getElementById('skills').value = sub.skills;
+        document.getElementById('potential_project').value = sub.potential_project;
+        document.getElementById('mentor').value = sub.mentor;
+
+        // Reset all fields
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+            const num = cb.closest('.field-input')?.querySelector('.field-count');
+            if (num) {
+                num.disabled = true;
+                num.value = 0;
+            }
+        });
+
+        // Restore field values
+        sub.fields.forEach(f => {
+            const value = f.field;
+            const cb = document.querySelector(`input[type="checkbox"][value="${value}"]`) ||
+                       document.getElementById('field16');
+            if (cb) {
+                cb.checked = true;
+                const num = cb.closest('.field-input')?.querySelector('.field-count');
+                if (num) {
+                    num.disabled = false;
+                    num.value = f.count;
+                }
+            }
+        });
+
+        // Handle "Other" field
+        if (sub.fields.some(f => ['Other', document.getElementById('otherField').value].includes(f.field))) {
+            const otherField = sub.fields.find(f => ['Other', f.field].includes(f.field))?.field;
+            document.getElementById('otherField').value = otherField;
+            document.getElementById('otherField').style.display = 'block';
+        }
+
+        document.getElementById('totalNeeded').textContent = sub.internCount;
+        calculateFieldsTotal();
+    }
+
+    
+
+    // === Get Form Data ===
+    function getFormData() {
+        const fields = [];
+        document.querySelectorAll('.field-item').forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            const numberInput = item.querySelector('.field-count');
+            if (checkbox.checked && (parseInt(numberInput.value) || 0) > 0) {
+                fields.push({
+                    field: checkbox.value === 'Other' ? document.getElementById('otherField').value : checkbox.value,
+                    count: parseInt(numberInput.value)
+                });
+            }
+        });
+
+        return {
+            id: document.getElementById('submissionId').value || 'sub-' + Date.now(),
+            department: document.getElementById('department').value,
+            internCount: document.getElementById('internCount').value,
+            fields: fields,
+            skills: document.getElementById('skills').value,
+            potential_project: document.getElementById('potential_project').value,
+            mentor: document.getElementById('mentor').value,
+            timestamp: new Date().toISOString()
+        };
+    }
+
+    // === Validate Form ===
+    function validateForm() {
+        const department = document.getElementById('department').value;
+        const mentor = document.getElementById('mentor').value;
+        const internCount = document.getElementById('internCount').value;
+        const fields = document.querySelectorAll('input[name="fields"]:checked');
+
+        if (!department || !mentor || !internCount || fields.length === 0) {
+            alert('Please fill in all required fields');
+            return false;
+        }
+
+
+        const fieldsTotal = calculateFieldsTotal();
+        if (fieldsTotal !== parseInt(internCount)) {
+            alert('The sum of interns per field must equal the total number of interns needed.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // === Save to localStorage (for frontend persistence) ===
+    function saveToLocalStorage(data) {
+        const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
+        const index = submissions.findIndex(s => s.id === data.id);
+
+        if (index !== -1) {
+            submissions[index] = data;
+        } else {
+            submissions.push(data);
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(submissions));
+    }
+
+    function deleteFromLocalStorage(id) {
+        const submissions = JSON.parse(localStorage.getItem(storageKey)) || [];
+        const filtered = submissions.filter(s => s.id !== id);
+        localStorage.setItem(storageKey, JSON.stringify(filtered));
+    }
+
+    // === Form Submission Handler ===
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const data = getFormData();
+        const fieldsData = data.fields;
+        document.getElementById('fields_and_counts').value = JSON.stringify(fieldsData);
+
+        // Save to localStorage
+        saveToLocalStorage(data);
+
+        // Submit form after small delay
+        setTimeout(() => {
+            this.submit();
+        }, 100);
+
+        // Show success message
+        successMessage.textContent = data.id ? 
+            'Your submission has been updated successfully!' : 
+            'Your internship requirements have been submitted successfully!';
+        successMessage.style.display = 'block';
+
+        // Reset form after 3 seconds
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000);
+    });
+
+    
+</script>
+</body>
+</html>

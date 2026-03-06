@@ -1,0 +1,982 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship | Spacescience and Geospatial Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+         /* Add this new style for notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+            animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 3s;
+        }
+        
+        @keyframes slideIn {
+            from { right: -300px; opacity: 0; }
+            to { right: 20px; opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .yellow-step {
+        color: #FFD700; /* Gold */
+        font-weight: bold;
+        }   
+
+        .blue-step {
+        color: #004080;
+        }
+
+        :root {
+            --space-blue: #1b5674;
+            --stellar-gold: #dd984b;
+            --cosmic-red: #FC3D21;
+            --nebula-purple: #9B59B6;
+            --star-white: #FFFFFF;
+            --galaxy-dark: #0A1128;
+            --comet-gray: #F5F7FA;
+            --orbit-shadow: 0 4px 20px rgba(11, 61, 145, 0.15);
+            --planet-size: 120px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--star-white);
+            color: #333;
+            line-height: 1.6;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="10" cy="10" r="0.5" fill="%230B3D9120"/><circle cx="30" cy="70" r="0.7" fill="%230B3D9120"/><circle cx="80" cy="40" r="0.4" fill="%230B3D9120"/><circle cx="60" cy="20" r="0.6" fill="%230B3D9120"/><circle cx="90" cy="85" r="0.3" fill="%230B3D9120"/></svg>');
+            background-size: 300px 300px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+           /* Header & Navigation */
+           
+header {
+    background:white; /* solid blue */
+    padding: 4px 0;      /* very slim */
+    box-shadow: none;    /* remove shadow for clean look */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-image {
+    height: 80px;   /* instead of fixed width, control by height */
+    width: 170px;
+    border-radius: 0; /* no rounded corners */
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    margin: 0;
+}
+
+nav a {
+    color:#1b5674;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: white;
+    color: #0B3D91;
+}
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(245, 247, 250, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="50" cy="50" r="2" fill="%230B3D91" opacity="0.3"/><circle cx="150" cy="30" r="1.5" fill="%230B3D91" opacity="0.3"/><circle cx="100" cy="100" r="1" fill="%230B3D91" opacity="0.3"/><circle cx="180" cy="150" r="2.5" fill="%230B3D91" opacity="0.3"/><circle cx="70" cy="180" r="1.2" fill="%230B3D91" opacity="0.3"/></svg>');
+            background-size: cover;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230B3D91" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,101.3C960,75,1056,85,1152,96C1248,107,1344,117,1392,122.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center bottom;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--space-blue);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero h1 span {
+            color: var(--stellar-gold);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--galaxy-dark);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+       .btn-primary {
+  padding: 14px 60px;
+  border-radius: 50px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background:  #1b5674;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 4px 15px rgba(11, 61, 145, 0.3);
+}
+
+.btn-primary:hover {
+  background: #dd984b;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(11, 61, 145, 0.4);
+}
+        
+        .btn-secondary {
+            background: var(--stellar-gold);
+            color: var(--galaxy-dark);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: #E6C200;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Application Section */
+        .application {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .application-container {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .form-container {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--orbit-shadow);
+            padding: 40px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--space-blue);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--comet-gray);
+        }
+        
+        .tab {
+            padding: 12px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #777;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: var(--space-blue);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--space-blue);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--space-blue);
+            box-shadow: 0 0 0 3px rgba(11, 61, 145, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .progress-container {
+            margin-top: 40px;
+            background: var(--comet-gray);
+            border-radius: 15px;
+            padding: 30px;
+            flex: 0 0 300px;
+            height: fit-content;
+        }
+        
+        .progress-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--space-blue);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .mission-tracker {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .phase {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .phase-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--stellar-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--galaxy-dark);
+            flex-shrink: 0;
+        }
+        
+        .phase-icon.completed {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .phase-info h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: black;
+        }
+        .phase-info p {
+            color: black;
+            font-weight: 100;
+        }
+        
+        
+        .phase-timeline {
+            height: 20px;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .line {
+            width: 2px;
+            height: 30px;
+            background: #ddd;
+            margin-top: 5px;
+        }
+        
+        .line.completed {
+            background: #4CAF50;
+        }
+        
+        
+        
+        /* Footer */
+        footer {
+            background: var(--galaxy-dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            color: var(--stellar-gold);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--stellar-gold);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: var(--space-blue);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+         /* === REQUIRED FIELD ASTERISK STYLE === */
+        .required-star {
+            color: #e43c11;
+            font-weight: bold;
+            font-size: 1.1em;}
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .application-container {
+                flex-direction: column;
+            }
+            
+            .progress-container {
+                flex: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+           
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .submit-btn {
+                width: 100% !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+     <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;">
+        <i class="fas fa-check-circle"></i> Application submitted successfully! We'll contact you soon.
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="{% static 'images/logo.jpg' %}" alt="Ethiopian Space Science and Geospatial Institute" class="logo-image">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>SSGI INTERNSHIP <span>PROGRAM</span></h1>
+            <p>Join our mission to explore the cosmos and advance geospatial sciences. Gain hands-on experience with cutting-edge technology and work alongside leading scientists in space research.</p>
+            <div class="cta-buttons">
+                <a href="#apply" class="btn btn-primary"><i class="fas fa-user-astronaut"></i> Apply as Intern</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Application Section -->
+    <section id="apply" class="application">
+        <div class="container">
+            <div class="section-title">
+               <!--LAUNCH YOUR CAREER REMOVED-->
+            </div>
+            
+            <div class="application-container">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3>INTERNSHIP APPLICATION</h3>
+                        <p>Please fill out the form to apply for our internship program</p>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" onclick="setTab('personal')">Personal Intern</div>
+                        <!-- <div class="tab" onclick="setTab('institutional')">Institutional Intern</div> -->
+                    </div>
+                    
+                    <form id="application-form" enctype="multipart/form-data" method="POST" action="{% url 'internship_application' %}">
+                    {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name<span class="required-star">*</span></label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name<span class="required-star">*</span></label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age<span class="required-star">*</span></label>
+                                <input type="number" id="age" name="age" class="form-control" min="15" max="100" required>
+                            </div>
+                        </div>
+
+                          <div class="form-row">
+                            <div class="form-group">
+                            <label for="email">Email Address<span class="required-star">*</span></label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                            <div id="email-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number<span class="required-star">*</span></label>
+                                <input type="tel" id="phone" name="phone" class="form-control" required>
+                            </div>
+                        </div>
+                        <!-- Add after the "City" field and before the "Institution/Organization" field in the application form -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="university">University<span class="required-star">*</span></label>
+                                <select id="university" name="university" class="form-control">
+                                    <option value="">Select University</option>
+                                    <option>Addis Ababa University (AAU)</option>
+                                    <option>Adama Science and Technology University (ASTU)</option>
+                                    <option>Arba Minch University</option>
+                                    <option>Bahir Dar University</option>
+                                    <option>Debre Berhan University</option>
+                                    <option>Debre Markos University</option>
+                                    <option>Debre Tabor University</option>
+                                    <option>Dire Dawa University</option>
+                                    <option>Dilla University</option>
+                                    <option>Gondar University</option>
+                                    <option>Haramaya University</option>
+                                    <option>Hawassa University</option>
+                                    <option>Jimma University</option>
+                                    <option>Mekelle University</option>
+                                    <option>Wolaita Sodo University</option>
+                                    <option>Wollo University</option>
+                                    <option>Wolkite University</option>
+                                    <option>Woldia University</option>
+                                    <option>Assosa University</option>
+                                    <option>Ambo University</option>
+                                    <option>Axum University</option>
+                                    <option>Samara University</option>
+                                    <option>Jigjiga University</option>
+                                    <option>Madda Walabu University</option>
+                                    <option>Metu University</option>
+                                    <option>Raya University</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="collegeName">If College, Enter Name</label>
+                                <input type="text" id="collegeName" name="collegeName" class="form-control" placeholder="College Name">
+                            </div>
+                        </div>
+
+                       <div class="form-row">
+    <div class="form-group">
+        <label for="nationality">Nationality<span class="required-star">*</span></label>
+        <input type="text" id="nationality" name="nationality" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Address<span class="required-star">*</span></label>
+        <input type="text" id="address" name="address" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="city">City<span class="required-star">*</span></label>
+        <input type="text" id="city" name="city" class="form-control" required>
+    </div>
+</div>
+
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="educationLevel">Current Education Level<span class="required-star">*</span></label>
+                                <select id="educationLevel" name="educationLevel" class="form-control" required>
+                                    <option value="">Select Level</option>
+                                    <option>Undergraduate</option>
+                                    <option>Graduate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cgpa">Current CGPA</label>
+                                <input type="number" id="cgpa" name="cgpa" class="form-control" min="0" max="4" step="0.01" placeholder="e.g. 3.25">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="passportId">Passport or National ID (PDF/JPG/PNG)<span class="required-star">*</span></label>
+                            <input type="file" id="passportId" name="passportId" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+
+                        <!-- <div class="form-group" id="institution-field" style="display: none;">
+                            <label for="institution">Institution/Organization</label>
+                            <input type="text" id="institution" name="institution" class="form-control">
+                        </div> -->
+
+                        <div class="form-group">
+                            <label for="department">Department<span class="required-star">*</span></label>
+                            <select id="department" name="department" class="form-control" required>
+                                <option value="">Select Department</option>
+                                <option>Accounting</option>
+                                <option>Agricultural Economics</option>
+                                <option>Agricultural Engineering</option>
+                                <option>Agriculture</option>
+                                <option>Animal Science</option>
+                                <option>Anthropology</option>
+                                <option>Architecture</option>
+                                <option>Biochemistry</option>
+                                <option>Biology</option>
+                                <option>Biomedical Engineering</option>
+                                <option>Biotechnology</option>
+                                <option>Business Administration</option>
+                                <option>Chemical Engineering</option>
+                                <option>Chemistry</option>
+                                <option>Civil Engineering</option>
+                                <option>Communication</option>
+                                <option>Computer Engineering</option>
+                                <option>Computer Science</option>
+                                <option>Construction Technology and Management</option>
+                                <option>Criminology</option>
+                                <option>Curriculum and Instruction</option>
+                                <option>Data Science</option>
+                                <option>Design</option>
+                                <option>Development Studies</option>
+                                <option>Economics</option>
+                                <option>Education</option>
+                                <option>Educational Planning and Management</option>
+                                <option>Electrical Engineering</option>
+                                <option>Electronics Engineering</option>
+                                <option>Environmental Engineering</option>
+                                <option>Environmental Science</option>
+                                <option>Finance</option>
+                                <option>Food Science and Technology</option>
+                                <option>Forestry</option>
+                                <option>Geography</option>
+                                <option>Geology</option>
+                                <option>Health Informatics</option>
+                                <option>History</option>
+                                <option>Horticulture</option>
+                                <option>Hydraulic Engineering</option>
+                                <option>Information Systems</option>
+                                <option>Information Technology</option>
+                                <option>International Relations</option>
+                                <option>Journalism</option>
+                                <option>Law</option>
+                                <option>Linguistics</option>
+                                <option>Management</option>
+                                <option>Marketing</option>
+                                <option>Materials Science and Engineering</option>
+                                <option>Mathematics</option>
+                                <option>Mechanical Engineering</option>
+                                <option>Medicine</option>
+                                <option>Microbiology</option>
+                                <option>Mining Engineering</option>
+                                <option>Natural Resource Management</option>
+                                <option>Nursing</option>
+                                <option>Pharmacy</option>
+                                <option>Philosophy</option>
+                                <option>Physics</option>
+                                <option>Plant Science</option>
+                                <option>Political Science</option>
+                                <option>Psychology</option>
+                                <option>Public Administration</option>
+                                <option>Public Health</option>
+                                <option>Social Work</option>
+                                <option>Sociology</option>
+                                <option>Software Engineering</option>
+                                <option>Special Needs Education</option>
+                                <option>Statistics</option>
+                                <option>Surveying Engineering</option>
+                                <option>Teacher Education</option>
+                                <option>Textile Engineering</option>
+                                <option>Tourism Management</option>
+                                <option>Urban Planning</option>
+                                <option>Veterinary Medicine</option>
+                                <option>Water Resources Engineering</option>
+                                <option>Wood Technology</option>
+                                <option>Zoology</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="currentYear">Current Year of Study<span class="required-star">*</span></label>
+                                <input type="text" id="currentYear" name="currentYear" class="form-control" placeholder="e.g. 2nd Year" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expectedGraduation">Expected Graduation<span class="required-star">*</span></label>
+                                <input type="month" id="expectedGraduation" name="expectedGraduation" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="duration">Internship Duration (Months)</label>
+                                <select id="duration" name="duration" class="form-control" >
+                                    <option value="">Select Duration</option>
+                                    <option value="1 month">1 month</option>
+                                    <option value="2 month">2 months</option>
+                                    <option value="3 month">3 months</option>
+                                    <option value="4 month">4 months</option>
+                                    <option value="5 month">5 months</option>
+                                    <option value="6 month">6 months</option>
+                                    <option value="7 month">7 months</option>
+                                    <option value="8 month">8 months</option>
+                                    <option value="9 month">9 months</option>
+                                    <option value="10 month">10 months</option>
+                                    <option value="11 month">11 months</option>
+                                    <option value="12 month">12 months</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="start_date">Start Date<span class="required-star">*</span></label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="end_date">End Date<span class="required-star">*</span></label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" required>
+                                <div id="date-error" style="color: #FC3D21; font-size: 14px; margin-top: 5px; display: none;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="skills">Skills & Qualifications</label>
+                            <textarea id="skills" name="skills" class="form-control" rows="3" placeholder="List your relevant skills and qualifications related to your field of study(e.g python, web development, cartography.........)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interests">Area of Interest</label>
+                            <textarea id="interests" name="interests" class="form-control" rows="3" placeholder="Describe your research interests and goals(e.g system analysis, mobile application.........)" ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="motivationLetter">Motivation Letter (PDF)(Optional)</label>
+                            <input type="file" id="motivationLetter" name="motivationLetter" class="form-control" accept=".pdf">
+                        </div>
+                        <div class="form-group">
+                            <label for="resume">Resume/CV (PDF) (Optional)</label>
+                            <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
+                        </div>
+                        <div class="form-group">
+                            <label for="recommendationLetter">Letter from University for Internship  (PDF)<span class="required-star">*</span></label>
+                            <input type="file" id="recommendationLetter" name="recommendationLetter" class="form-control" accept=".pdf" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary submit-btn" style="margin-top: 20px;">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                    </form>
+                </div>
+        
+    </div>
+</div>
+</section>
+   
+    <!-- Footer -->
+    <footer style="background: var(--galaxy-dark); color: white; padding: 15px 0; text-align: center; font-size: 14px;">
+        <div class="container">
+            <p>&copy; 2025 Ethiopian Space Science and Geospatial Institute. All rights reserved.</p>
+        </div>
+    </footer>
+
+   <script>
+    // Tab Selection
+    function setTab(tabType, event) {
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+    //     const institutionField = document.getElementById('institution-field');
+    //    // institutionField.style.display = tabType === 'institutional' ? 'block' : 'none';
+    }
+
+    // Initialize date inputs to tomorrow and enforce min dates
+    function toISODate(date) {
+        return date.toISOString().split('T')[0];
+    }
+
+    const today = new Date();
+    const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    const minDate = toISODate(tomorrow);
+    startDateInput.min = minDate;
+    endDateInput.min = minDate;
+
+    startDateInput.value = minDate;
+
+    startDateInput.addEventListener('change', () => {
+        if (startDateInput.value) {
+            endDateInput.min = startDateInput.value;
+            if (endDateInput.value && endDateInput.value < startDateInput.value) {
+                endDateInput.value = startDateInput.value;
+            }
+        }
+    });
+
+    // Progress tracking simulation
+    setTimeout(() => {
+        document.querySelectorAll('.phase-icon')[0].classList.add('completed');
+        document.querySelectorAll('.line')[0].classList.add('completed');
+    }, 1000);
+
+    // Duration validation
+    function calculateMonthsDifference(start, end) {
+        let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+        if (end.getDate() < start.getDate()) months -= 1;
+        return months;
+    }
+
+    function validateDateDuration() {
+        const startDateVal = document.getElementById('start_date').value;
+        const endDateVal = document.getElementById('end_date').value;
+        const durationVal = document.getElementById('duration').value;
+        const errorDiv = document.getElementById('date-error');
+        errorDiv.style.display = 'none';
+        errorDiv.textContent = '';
+
+        if (startDateVal && endDateVal && durationVal) {
+            const start = new Date(startDateVal);
+            const end = new Date(endDateVal);
+            const monthsDiff = calculateMonthsDifference(start, end);
+            const durationMonths = parseInt(durationVal, 10);
+
+            if (monthsDiff !== durationMonths) {
+                errorDiv.textContent = `Selected duration (${durationMonths} months) does not match the difference between Start Date and End Date (${monthsDiff} months).`;
+                errorDiv.style.display = 'block';
+                return false;
+            }
+        }
+        return true;
+    }
+
+    document.getElementById('start_date').addEventListener('change', validateDateDuration);
+    document.getElementById('end_date').addEventListener('change', validateDateDuration);
+    document.getElementById('duration').addEventListener('change', validateDateDuration);
+
+
+
+    //email check
+    const checkEmailUrl = "{% url 'check_email' %}";
+    document.getElementById('email').addEventListener('input', function() {
+        const email = this.value.trim();
+        const errorDiv = document.getElementById('email-error');
+        errorDiv.style.display = 'none';
+        errorDiv.textContent = '';
+        emailIsValid = true;
+
+        if (email) {
+            fetch(`${checkEmailUrl}?email=${encodeURIComponent(email)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        errorDiv.textContent = 'This email has already been used to apply. Please use a different email.';
+                        errorDiv.style.display = 'block';
+                        emailIsValid = false;
+                    }
+                })
+                .catch(err => console.error('Fetch error:', err));
+        }
+    });
+
+
+
+    // Form submission
+    document.getElementById('application-form').addEventListener('submit', function(e) {
+        if (!validateDateDuration() || !emailIsValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    //      // Mission tracker – mark green only if user has applied
+    // // Initialize date input to today
+    //     document.getElementById('startDate').valueAsDate = new Date();
+        
+    //     // Simulate progress tracking
+    //     setTimeout(() => {
+    //         document.querySelectorAll('.phase-icon')[0].classList.add('completed');
+    //         document.querySelectorAll('.line')[0].classList.add('completed');
+    //     }, 1000);
+    //
+
+</script>
+
