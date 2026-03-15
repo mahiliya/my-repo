@@ -1,7 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
+from django.conf import settings
 
 class InternshipApplication(models.Model):
     STATUS_CHOICES = [
@@ -15,7 +13,6 @@ class InternshipApplication(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     age = models.IntegerField(null=True, blank=True)
-
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     city = models.CharField(max_length=100)
@@ -29,7 +26,7 @@ class InternshipApplication(models.Model):
     department = models.CharField(max_length=100, default='Not Provided')
     current_year = models.CharField(max_length=10, default='Not Provided')
     expected_graduation = models.CharField(max_length=20, default='Not Provided')
-    duration = models.CharField(max_length=10, choices=[(f"{i} month", f"{i} month{'s' if i > 1 else ''}") for i in range(1, 13)], null=True, blank=True)
+    duration = models.CharField(max_length=20, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     skills = models.TextField(blank=True, default='Not Provided')
@@ -44,12 +41,14 @@ class InternshipApplication(models.Model):
         choices=STATUS_CHOICES,
         default='pending'
     )
-    
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    def duration_display(self):
-        if self.duration:
-            return f"{self.duration} month{'s' if self.duration > 1 else ''}"
-        return ""
-
+# This must be at the same indentation level as InternshipApplication
+class Application(models.Model):
+    """ 
+    Placeholder so your Super Admin views don't crash when 
+    importing 'Application' 
+    """
+    pass

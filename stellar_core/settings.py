@@ -42,19 +42,20 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
+   'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # YOUR APPS - Must include the 'apps.' prefix
     'apps.accounts',
-    'apps.departments',
+    'apps.super_core',
     'apps.applications',
+     'matches',
+    'apps.departments',
     'apps.adminpanel',
-    'apps.matches',
     'apps.approved',
     'apps.progress',
-    
 ]
 
 MIDDLEWARE = [
@@ -189,3 +190,13 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 LOGIN_URL = '/adminpanel/staff/login/'
 LOGIN_REDIRECT_URL = '/departments/'
 LOGOUT_REDIRECT_URL = '/'
+# 1. TELL DJANGO TO USE YOUR CUSTOM USER MODEL
+# Put this near the bottom of the file. 
+# Use: Allows your backend to recognize 'is_department_admin' flags.
+AUTH_USER_MODEL = 'accounts.User'
+
+# 2. AGGRESSIVE SECURITY SETTINGS
+# The Job: Logs user out the second the browser closes.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  
+SESSION_COOKIE_AGE = 1800  # Sets a 30-minute timeout even if they keep the browser open
+SESSION_SAVE_EVERY_REQUEST = True # Resets the 30-min timer on every click
