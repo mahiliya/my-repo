@@ -10,12 +10,13 @@ from apps.departments.models import Department
 #     return render(request, 'departments.html', {'department': department})
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'public/interns.html')
 def interns(request):
     return render(request, 'interns.html')
 @login_required
 def departments(request):
     return render(request, 'departments.html')
+
 
 # from django.shortcuts import render
 # from apps.departments.models import Department

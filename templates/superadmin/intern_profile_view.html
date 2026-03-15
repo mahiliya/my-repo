@@ -1,0 +1,19 @@
+<div style="background: white; border-bottom: 1px solid #f1f5f9; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 style="color: #4B2E2B; margin: 0;">{{ intern.full_name }}</h1>
+        <p style="color: #94a3b8; margin: 0;">Department: {{ intern.department }}</p>
+    </div>
+
+    <form action="{% url 'update_intern_status' intern.id %}" method="POST" style="display: flex; gap: 10px; align-items: center;">
+        {% csrf_token %}
+        <label style="font-size: 11px; font-weight: 800; color: #4B2E2B;">UPDATE STAGE:</label>
+        <select name="status" style="padding: 8px; border-radius: 6px; border: 1px solid #C08552; background: #FFF8F0; color: #4B2E2B; font-weight: 600;">
+            <option value="Pending" {% if intern.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Approved" {% if intern.status == 'Approved' %}selected{% endif %}>Approved (Active)</option>
+            <option value="Rejected" {% if intern.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+            <option value="Completed" {% if intern.status == 'Completed' %}selected{% endif %}>Completed (Graduate)</option>
+            <option value="Terminated" {% if intern.status == 'Terminated' %}selected{% endif %}>Terminated</option>
+        </select>
+        <button type="submit" style="background: #4B2E2B; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 700;">Update</button>
+    </form>
+</div>

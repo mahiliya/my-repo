@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
 from matches.models import Match
-from adminpanel.models import EmailTemplate
+from apps.adminpanel.models import EmailTemplate
 from apps.approved.models import Approved
 
 @receiver(post_save, sender=Match)

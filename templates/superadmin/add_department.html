@@ -1,0 +1,32 @@
+{% extends "superadmin/superadmin_dashboard.html" %}
+
+{% block dashboard_content %}
+<div style="max-width: 900px; margin: 40px auto; display: grid; grid-template-columns: 1fr 350px; gap: 40px; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(75, 46, 43, 0.05);">
+    
+    <div>
+        <h2 style="color: #4B2E2B; margin-bottom: 10px;">Create Department</h2>
+        <p style="color: #64748b; margin-bottom: 30px; font-size: 14px;">Set up the workspace for your Department Managers.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #4B2E2B; font-weight: 600; margin-bottom: 8px;">Department Name</label>
+                <input type="text" name="name" placeholder="e.g. Information Technology" required 
+                       style="width: 100%; padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px; font-size: 15px;">
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; color: #4B2E2B; font-weight: 600; margin-bottom: 8px;">Description & Goals</label>
+                <textarea name="description" rows="5" placeholder="What will interns do in this department?" 
+                          style="width: 100%; padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px; font-size: 15px; resize: none;"></textarea>
+            </div>
+
+            <button type="submit" style="background: #4B2E2B; color: #FFF8F0; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s;">
+                Initialize Department
+            </button>
+        </form>
+    </div>
+
+   
+</div>
+{% endblock %}

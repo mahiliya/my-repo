@@ -36,7 +36,7 @@
         <ul class="errorlist">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>
       {% endif %}
 
-      <form method="post" action="{% url 'login' %}">
+      <form method="post" action="{% url 'staff_login' %}">
         {% csrf_token %}
         {% if request.GET.next %}
         <input type="hidden" name="next" value="{{ request.GET.next }}" />

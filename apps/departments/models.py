@@ -18,12 +18,16 @@ from django.utils import timezone
 
 class Department(models.Model):
     department = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)  # Add description field
     intern_count = models.PositiveIntegerField()
     skills = models.TextField(blank=True, null=True)
     potential_project = models.TextField(blank=True, null=True)
     mentor = models.CharField(max_length=255, blank=True, null=True)
     fields_and_counts = models.JSONField(default=list)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    application_deadline = models.DateTimeField(null=True, blank=True)
+    max_file_size_mb = models.IntegerField(default=2) # 2MB, 5MB, etc.
+    is_accepting_applications = models.BooleanField(default=True)
 
     def __str__(self):
         return self.department

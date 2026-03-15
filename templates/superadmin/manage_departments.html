@@ -1,0 +1,43 @@
+{% extends "superadmin/base_superadmin.html" %}
+
+{% block content %}
+<div style="padding: 30px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h1 style="color: #e6db47;">Infrastructure Management</h1>
+        <a href="{% url 'add_department' %}" style="background: #f7edc1; color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: 700;">+ Add New Unit</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;">
+        {% for dept in depts %}
+        <div class="card">
+            <div style="display: flex; justify-content: space-between;">
+                <span style="background: #FFF8F0; color: #C08552; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 800;">UNIT {{ forloop.counter }}</span>
+                <div style="display: flex; gap: 10px;">
+                    <a href="{% url 'edit_department' dept.id %}" title="Edit Name">✏️</a>
+                    <a href="{% url 'delete_department' dept.id %}" onclick="return confirm('Delete this entire department?')">🗑️</a>
+                </div>
+            </div>
+
+            <h2 style="color: #4B2E2B; margin: 15px 0 5px 0;">{{ dept.name }}</h2>
+            <p style="color: #64748b; font-size: 14px; height: 40px; overflow: hidden;">{{ dept.description }}</p>
+
+            <div style="background: #f8fafc; border-radius: 10px; padding: 15px; margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+                    <span style="color: #94a3b8;">Quota:</span>
+                    <strong style="color: #4B2E2B;">{{ dept.intern_limit }} Interns</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                    <span style="color: #94a3b8;">Deadline:</span>
+                    <strong style="color: #ef4444;">{{ dept.application_deadline|date:"M d, H:i" }}</strong>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <a href="{% url 'update_dept_controls' dept.id %}" style="background: #C08552; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">⚙️ Settings</a>
+                <a href="{% url 'global_intern_oversight' %}?dept={{ dept.id }}" style="background: #4B2E2B; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">👥 View Interns</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

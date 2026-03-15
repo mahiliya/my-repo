@@ -1,0 +1,53 @@
+{% extends "superadmin/base_superadmin.html" %}
+
+{% block content %}
+<div style="padding: 40px; max-width: 700px; margin: auto;">
+    <div style="background: white; border-radius: 20px; box-shadow: 0 15px 50px rgba(75, 46, 43, 0.1); overflow: hidden;">
+        
+        <div style="background: #4B2E2B; padding: 30px; color: #FFF8F0;">
+            <h2 style="margin: 0;">Department Controls: {{ dept.department }}</h2>
+            <p style="margin: 5px 0 0; opacity: 0.8; font-size: 14px;">Set global limits and deadlines for this unit.</p>
+        </div>
+
+        <form method="POST" style="padding: 40px;">
+            {% csrf_token %}
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: 700; color: #4B2E2B; margin-bottom: 8px;">Internship Limit (Quota)</label>
+                <input type="number" name="intern_count" value="{{ dept.intern_count }}" 
+                       style="width: 100%; padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px;">
+                <small style="color: #94a3b8;">Maximum number of interns this department can accept.</small>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: 700; color: #4B2E2B; margin-bottom: 8px;">Application Deadline</label>
+                <input type="datetime-local" name="deadline" 
+                       value="{{ dept.application_deadline|date:'Y-m-d\TH:i' }}"
+                       style="width: 100%; padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px;">
+                <small style="color: #ef4444; font-weight: 600;">The form will auto-lock after this date/time.</small>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: 700; color: #4B2E2B; margin-bottom: 8px;">Max File Upload (MB)</label>
+                <select name="file_size" style="width: 100%; padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px;">
+                    <option value="2" {% if dept.max_file_size_mb == 2 %}selected{% endif %}>2 MB (Standard)</option>
+                    <option value="5" {% if dept.max_file_size_mb == 5 %}selected{% endif %}>5 MB (Medium)</option>
+                    <option value="10" {% if dept.max_file_size_mb == 10 %}selected{% endif %}>10 MB (Extended/High Res)</option>
+                </select>
+            </div>
+
+            <div style="background: #FFF8F0; padding: 20px; border-radius: 12px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px;">
+                <input type="checkbox" name="is_active" {% if dept.is_accepting_applications %}checked{% endif %} style="width: 20px; height: 20px;">
+                <div>
+                    <strong style="color: #4B2E2B; display: block;">Open for Applications</strong>
+                    <small style="color: #8B5E3C;">Uncheck to manually close the portal for this department.</small>
+                </div>
+            </div>
+
+            <button type="submit" style="background: #4B2E2B; color: #FFF8F0; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">
+                Save & Enforce Rules
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1486,7 +1486,8 @@ Unfortunately NO, we don't have any compensation or stipend money.</div>
   <!-- Scripts -->
   <script>
    
-    // Fixed Slideshow functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fixed Slideshow functionality
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slide');
     const indicators = document.querySelectorAll('.indicator');
@@ -1684,8 +1685,9 @@ Unfortunately NO, we don't have any compensation or stipend money.</div>
     });
     
     // Initialize slideshow when page loads
-    window.addEventListener('load', initSlideshow);
-    
+      window.addEventListener('load', initSlideshow);
+      
+    }); // End DOMContentLoaded
   </script>
 </body>
 </html>

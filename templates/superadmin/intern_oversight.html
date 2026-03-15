@@ -1,0 +1,60 @@
+{% extends "superadmin/superadmin_dashboard.html" %}
+
+{% block dashboard_content %}
+<div style="padding: 20px;">
+    <div style="margin-bottom: 25px;">
+        <h1 style="color: #4B2E2B; margin: 0; font-size: 26px;">Global Intern Oversight</h1>
+        <p style="color: #64748b;">You are viewing all <strong>{{ total_count }}</strong> applicants across all SSGI departments.</p>
+    </div>
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #4B2E2B; color: #FFF8F0; text-align: left;">
+                    <th style="padding: 15px 20px;">Applicant Name</th>
+                    <th style="padding: 15px 20px;">Assigned Department</th>
+                    <th style="padding: 15px 20px;">Status</th>
+                    <th style="padding: 15px 20px;">Applied Date</th>
+                    <th style="padding: 15px 20px; text-align: right;">Oversight</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applicants %}
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 15px 20px;">
+                        <div style="font-weight: 700; color: #4B2E2B;">{{ app.first_name }} {{ app.last_name }}</div>
+                        <div style="font-size: 12px; color: #94a3b8;">{{ app.email }}</div>
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        <span style="color: #C08552; font-weight: 600;">{{ app.department }}</span>
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        {% if app.status == 'pending' %}
+                            <span style="padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #fef3c7; color: #92400e;">{{ app.status|upper }}</span>
+                        {% elif app.status == 'approval' %}
+                            <span style="padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #d1fae5; color: #065f46;">{{ app.status|upper }}</span>
+                        {% else %}
+                            <span style="padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; background: #fee2e2; color: #991b1b;">{{ app.status|upper }}</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 15px 20px; color: #64748b; font-size: 13px;">
+                        {{ app.submitted_at|date:"M d, Y" }}
+                    </td>
+                    <td style="padding: 15px 20px; text-align: right;">
+                        <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                            <a href="{% url 'intern_profile_view' app.id %}" title="View Full Profile" style="text-decoration: none;">👤</a>
+                            <a href="{% url 'superadmin_action' app.id 'approve' %}" 
+                               style="background: #10b981; color: white; padding: 5px 10px; border-radius: 4px; font-size: 11px; text-decoration: none; font-weight: 700;">APPROVE</a>
+                            <a href="{% url 'superadmin_action' app.id 'reject' %}" 
+                               style="background: #ef4444; color: white; padding: 5px 10px; border-radius: 4px; font-size: 11px; text-decoration: none; font-weight: 700;">REJECT</a>
+                            <a href="{% url 'superadmin_action' app.id 'reverse' %}" 
+                               style="background: #64748b; color: white; padding: 5px 10px; border-radius: 4px; font-size: 11px; text-decoration: none; font-weight: 700;">REVERSE</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

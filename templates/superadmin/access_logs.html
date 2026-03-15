@@ -1,0 +1,49 @@
+{% extends "superadmin/superadmin_dashboard.html" %}
+
+{% block dashboard_content %}
+<div style="padding: 20px;">
+    <div style="margin-bottom: 25px;">
+        <h1 style="color: #4B2E2B; margin: 0; font-size: 26px;">System Activity Logs</h1>
+        <p style="color: #64748b; font-size: 14px;">Real-time monitoring of all staff and department actions.</p>
+    </div>
+
+    <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(75, 46, 43, 0.03); overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #4B2E2B; color: #FFF8F0; text-align: left;">
+                    <th style="padding: 15px 20px; font-weight: 600; font-size: 14px;">Staff Member</th>
+                    <th style="padding: 15px 20px; font-weight: 600; font-size: 14px;">Action Performed</th>
+                    <th style="padding: 15px 20px; font-weight: 600; font-size: 14px;">Timestamp</th>
+                    <th style="padding: 15px 20px; font-weight: 600; font-size: 14px;">IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.2s;">
+                    <td style="padding: 15px 20px;">
+                        <span style="font-weight: 700; color: #4B2E2B;">{{ log.admin_name }}</span>
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        <span style="color: #475569; font-size: 14px;">{{ log.action }}</span>
+                    </td>
+                    <td style="padding: 15px 20px; color: #94a3b8; font-size: 13px;">
+                        {{ log.timestamp|date:"M d, Y | H:i:s" }}
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        <code style="background: #f8fafc; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #C08552;">
+                            {{ log.ip_address|default:"Internal" }}
+                        </code>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="padding: 40px; text-align: center; color: #94a3b8; font-style: italic;">
+                        No activity recorded yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

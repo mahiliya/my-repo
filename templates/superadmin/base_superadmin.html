@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSGI | Command Center</title>
+    <style>
+        :root {
+            --espresso: #4B2E2B;
+            --cream: #FFF8F0;
+            --tan: #C08552;
+            --text-muted: #94a3b8;
+        }
+
+        body { margin: 0; font-family: 'Inter', sans-serif; display: flex; background: var(--cream); }
+/* Add this to your base_superadmin.html <style> section */
+input, select, textarea {
+    color: #000000 !important; /* Forces all text you type to be BLACK */
+    background-color: #ffffff !important;
+    border: 2px solid #e2e8f0;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #4B2E2B; /* Espresso border when typing */
+    outline: none;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+        /* THE SIDEBAR */
+        .sidebar {
+            width: 260px; height: 100vh; background: var(--espresso);
+            color: white; position: fixed; display: flex; flex-direction: column;
+        }
+
+        .sidebar-header { padding: 30px; font-weight: 800; font-size: 22px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        .nav-links { flex-grow: 1; padding: 20px 0; }
+
+        .nav-item {
+            padding: 15px 30px; display: block; color: rgba(255,255,255,0.7);
+            text-decoration: none; font-weight: 500; transition: 0.3s;
+        }
+
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--tan); }
+        
+        /* Highlight the active page */
+        .active { background: var(--tan) !important; color: var(--espresso) !important; font-weight: 700; }
+
+        /* THE CONTENT AREA */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); min-height: 100vh; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">SSGI COMMAND</div>
+        
+        <nav class="nav-links">
+            <a href="{% url 'superadmin_dashboard' %}" class="nav-item">📊 System Health</a>
+            <a href="{% url 'manage_admins' %}" class="nav-item">👥 Staff Control</a>
+            <a href="{% url 'manage_departments' %}" class="nav-item">🏢 Infrastructure</a>
+            <a href="{% url 'global_intern_oversight' %}" class="nav-item">🌍 Global Oversight</a>
+            <a href="{% url 'access_logs' %}" class="nav-item">📜 Security Logs</a>
+        </nav>
+
+        <div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <a href="{% url 'admin_logout' %}" style="color: #ff6b6b; text-decoration: none; font-size: 14px; font-weight: 700;">Sign Out</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

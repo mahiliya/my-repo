@@ -1,0 +1,248 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<style>
+    /* SSGI Earth Tone Palette - Exact Match to Dashboard */
+    :root {
+        --bg-cream: #FFF8F0;
+        --accent-tan: #C08552;
+        --accent-brown: #8C5A3C;
+        --deep-espresso: #4B2E2B;
+        --white: #ffffff;
+        --border: rgba(75, 46, 43, 0.1);
+    }
+
+    body {
+        background-color: var(--bg-cream);
+        color: var(--deep-espresso);
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        margin: 0;
+    }
+
+    .dashboard-wrapper { display: flex; min-height: 100vh; }
+
+    /* Sidebar - Matching perfectly for seamless transition */
+    .sidebar { 
+        width: 280px; 
+        background: var(--deep-espresso); 
+        color: var(--bg-cream);
+        padding: 40px 24px;
+    }
+
+    .ssgi-logo {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-bottom: 50px;
+        padding-left: 12px;
+        border-left: 4px solid var(--accent-tan);
+    }
+
+    .sidebar-link { 
+        display: flex;
+        padding: 14px 18px; 
+        color: var(--bg-cream); 
+        text-decoration: none; 
+        border-radius: 12px; 
+        margin-bottom: 8px;
+        transition: 0.3s;
+    }
+
+    .sidebar-link:hover { background: var(--accent-tan); }
+    .sidebar-link.active { background: var(--accent-tan); color: white; }
+
+    /* Main Content */
+    .main-content { flex: 1; padding: 50px; }
+
+    /* The "One Button Above" Header */
+    .action-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .btn-add-ssgi {
+        background: var(--accent-brown);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(140, 90, 60, 0.3);
+        transition: 0.3s;
+    }
+
+    .btn-add-ssgi:hover {
+        background: var(--deep-espresso);
+        transform: translateY(-2px);
+    }
+
+    /* Relaxed & Professional Table */
+    .table-container {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 30px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(140, 90, 60, 0.05);
+    }
+
+    .relaxed-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .relaxed-table th {
+        text-align: left;
+        padding: 15px;
+        color: var(--accent-brown);
+        font-size: 13px;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--bg-cream);
+    }
+
+    .relaxed-table td {
+        padding: 24px 15px;
+        border-bottom: 1px solid var(--bg-cream);
+        font-size: 15px;
+    }
+
+    /* Status & Action Styles */
+    .status-tag {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .active-tag { background: #E8F5E9; color: #2E7D32; }
+    .disabled-tag { background: #FFEBEE; color: #C62828; }
+
+    .action-btn {
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        margin-right: 15px;
+        color: var(--accent-tan);
+    }
+    .action-btn:hover { color: var(--deep-espresso); }
+    .delete-text { color: #e74c3c; }
+</style>
+
+<div class="dashboard-wrapper">
+    <div class="sidebar">
+        <div class="ssgi-logo">SSGI</div>
+        <a href="{% url 'superadmin_dashboard' %}" class="sidebar-link">Dashboard Overview</a>
+        <a href="{% url 'manage_admins' %}" class="sidebar-link active">Admin Accounts</a>
+        <a href="{% url 'manage_departments' %}" class="sidebar-link">Departments</a>
+        </div>
+        {% extends "superadmin/superadmin_dashboard.html" %}
+
+{% block dashboard_content %}
+<div style="padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h1 style="color: #4B2E2B; margin: 0; font-size: 28px;">Staff Administration</h1>
+            <p style="color: #64748b; margin-top: 5px;">Manage system access and roles for all administrators.</p>
+        </div>
+        <a href="{% url 'add_admin' %}" style="background-color: #4B2E2B; color: #FFF8F0; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.3s;">
+            + Add New Staff
+        </a>
+    </div>
+
+    <div style="background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(75, 46, 43, 0.05); overflow: hidden; border: 1px solid #e2e8f0;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: #4B2E2B; color: #FFF8F0;">
+                    <th style="padding: 18px 20px;">Staff Member</th>
+                    <th style="padding: 18px 20px;">Role</th>
+                    <th style="padding: 18px 20px;">Status</th>
+                    <th style="padding: 18px 20px; text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in all_admins %}
+                <tr style="border-bottom: 1px solid #f1f5f9; transition: 0.2s;" onmouseover="this.style.backgroundColor='#FFF8F0'" onmouseout="this.style.backgroundColor='transparent'">
+                    <td style="padding: 15px 20px;">
+                        <div style="font-weight: 700; color: #4B2E2B;">{{ admin.username }}</div>
+                        <div style="font-size: 13px; color: #94a3b8;">{{ admin.email }}</div>
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        <span style="padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #e2e8f0; color: #475569;">
+                            {{ admin.role|upper }}
+                        </span>
+                    </td>
+                    <td style="padding: 15px 20px;">
+                        {% if admin.is_active %}
+                            <span style="color: #10b981; font-size: 13px; font-weight: 600;">● Active</span>
+                        {% else %}
+                            <span style="color: #ef4444; font-size: 13px; font-weight: 600;">● Disabled</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 15px 20px; text-align: right;">
+                        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <a href="{% url 'reset_password' admin.id %}" title="Reset Password" style="color: #C08552; text-decoration: none; font-size: 18px;">🔑</a>
+                            <a href="{% url 'toggle_admin' admin.id %}" title="Toggle Status" style="color: #64748b; text-decoration: none; font-size: 18px;">🔄</a>
+                            <a href="{% url 'delete_admin' admin.id %}" title="Delete" onclick="return confirm('Are you sure?')" style="color: #ef4444; text-decoration: none; font-size: 18px;">🗑️</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+    <div class="main-content">
+        <div class="action-header">
+            <div>
+                <h1 style="margin: 0; font-size: 32px; font-weight: 800;">Administrator Access</h1>
+                <p style="color: var(--accent-brown); margin: 5px 0 0 0;">Review and manage system-wide credentials</p>
+            </div>
+            
+            <a href="{% url 'add_admin' %}" class="btn-add-ssgi">+ Add New Admin</a>
+        </div>
+
+        <div class="table-container">
+            <table class="relaxed-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Account Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% extends "superadmin/base_superadmin.html" %}
+
+                        {% block content %}
+                            <div style="padding: 30px;">
+                                <h1>Staff Control</h1>
+                                </div>
+                        {% endblock %}
+                    {% for admin in all_admins %}
+                    <tr>
+                        <td><strong>{{ admin.username }}</strong><br><small style="color: var(--accent-tan);">{{ admin.email }}</small></td>
+                        <td><span style="font-family: monospace; background: var(--bg-cream); padding: 4px 8px; border-radius: 4px;">{{ admin.role }}</span></td>
+                        <td>
+                            {% if admin.is_active %}
+                            <span class="status-tag active-tag">Active</span>
+                            {% else %}
+                            <span class="status-tag disabled-tag">Disabled</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'reset_password' admin.id %}" class="action-btn">Reset</a>
+                            <a href="{% url 'toggle_admin' admin.id %}" class="action-btn" style="color: var(--accent-brown);">
+                                {% if admin.is_active %}Disable{% else %}Enable{% endif %}
+                            </a>
+                            <a href="{% url 'delete_admin' admin.id %}" class="action-btn delete-text" onclick="return confirm('Permanently remove this admin?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

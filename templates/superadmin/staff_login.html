@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSGI Staff Login</title>
+    <style>
+        :root {
+            --bg-cream: #FFF8F0;
+            --deep-espresso: #4B2E2B;
+            --accent-tan: #C08552;
+            --white: #ffffff;
+            --error-red: #e53e3e;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-cream);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 420px;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(75, 46, 43, 0.08);
+            text-align: center;
+        }
+
+        .logo-area {
+            margin-bottom: 35px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--deep-espresso);
+            letter-spacing: -1px;
+        }
+
+        .logo-subtext {
+            display: block;
+            font-size: 14px;
+            color: var(--accent-tan);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        h2 {
+            color: var(--deep-espresso);
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--deep-espresso);
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+            background: #f8fafc;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-tan);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(192, 133, 82, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--deep-espresso);
+            color: var(--bg-cream);
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-login:hover {
+            background: #3a2422;
+            transform: translateY(-1px);
+        }
+
+        .error-msg {
+            background: #fff5f5;
+            color: var(--error-red);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #fed7d7;
+        }
+
+        .footer-links {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .footer-links a {
+            color: var(--accent-tan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-area">
+            <span class="logo-text">SSGI</span>
+            <span class="logo-subtext">Staff Portal</span>
+        </div>
+
+        <h2>Sign In</h2>
+
+        {% if error %}
+        <div class="error-msg">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'staff_login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your staff ID" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-login">Access Dashboard</button>
+        </form>
+
+        <div class="footer-links">
+            <p>Authorized access only. <br> Are you an applicant? <a href="{% url 'applicant_form' %}">Apply here</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

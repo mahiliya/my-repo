@@ -3,5 +3,13 @@
 {% block title %} Admin Dashboard{% endblock %}
 
 {% block branding %}
-  <h1 id="site-name"><a href="{% url 'admin:index' %}">Admin Dashboard</a></h1>
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">Admin Dashboard</a>
+    
+    <span style="font-size: 14px; margin-left: 20px; border-left: 1px solid #fff; padding-left: 20px;">
+      <a href="{% url 'superadmin_dashboard' %}" style="color: #ffcc00; text-decoration: none;">
+        Go to Custom Dashboard →
+      </a>
+    </span>
+  </h1>
 {% endblock %}

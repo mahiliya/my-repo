@@ -186,5 +186,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 # Authentication redirects
+LOGIN_URL = '/adminpanel/staff/login/'
 LOGIN_REDIRECT_URL = '/departments/'
 LOGOUT_REDIRECT_URL = '/'

@@ -1,0 +1,103 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<style>
+    :root {
+        --bg-cream: #FFF8F0;
+        --accent-tan: #C08552;
+        --accent-brown: #8C5A3C;
+        --deep-espresso: #4B2E2B;
+        --white: #ffffff;
+    }
+
+    body { background-color: var(--bg-cream); font-family: 'Inter', sans-serif; }
+    
+    .form-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: var(--white);
+        padding: 40px;
+        border-radius: 24px;
+        box-shadow: 0 15px 35px rgba(75, 46, 43, 0.08);
+        border: 1px solid rgba(75, 46, 43, 0.05);
+    }
+
+    .form-title { color: var(--deep-espresso); font-weight: 800; font-size: 26px; margin-bottom: 10px; }
+    .form-subtitle { color: var(--accent-brown); margin-bottom: 30px; font-weight: 500; }
+
+    .input-group { margin-bottom: 20px; }
+    .input-group label { 
+        display: block; 
+        margin-bottom: 8px; 
+        font-weight: 700; 
+        color: var(--deep-espresso); 
+        font-size: 14px;
+    }
+
+    .ssgi-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--bg-cream);
+    background: white;
+    border-radius: 12px;
+    font-size: 15px;
+    color: black;
+    transition: 0.3s;
+}
+
+    .ssgi-input:focus {
+    outline: none;
+    border-color: var(--accent-tan);
+    background: white;
+}
+    
+
+    .btn-submit {
+        background: var(--deep-espresso);
+        color: var(--bg-cream);
+        padding: 16px 32px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        width: 100%;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-submit:hover { background: var(--accent-brown); transform: translateY(-2px); }
+</style>
+
+<div class="form-container">
+    <div class="form-title">New Administrator</div>
+    <p class="form-subtitle">Create a secure access point for staff members.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="username" class="ssgi-input" placeholder="e.g. ssgi_admin_01" required>
+        </div>
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" name="email" class="ssgi-input" placeholder="admin@ssgi.edu" required>
+        </div>
+        <div class="input-group">
+            <label>Assign Role</label>
+            <select name="role" class="ssgi-input">
+                <option value="admin">General Admin</option>
+                <option value="dept_admin">Department Head</option>
+                <option value="superadmin">System Super Admin</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Temporary Password</label>
+            <input type="password" name="password" class="ssgi-input" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Initialize Account</button>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'manage_admins' %}" style="color: var(--accent-tan); text-decoration: none; font-weight: 600;">Back to Management</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
